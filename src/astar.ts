@@ -31,7 +31,7 @@ export default class AStar {
       if (!this.inBounds(pt.x, pt.y) || this.inList(this.closedList, nNode) > -1) continue;
 
       nNode.g = node.g + 1 + nNode.dir != node.dir ? 1 : 0;
-      nNode.h = Math.abs(this.aStarObj.end.x - nNode.pos.x) + Math.abs(this.aStarObj.end.y - nNode.pos.y);
+      nNode.h = nNode.pos.distSqr(this.aStarObj.end);//Math.abs(this.aStarObj.end.x - nNode.pos.x) + Math.abs(this.aStarObj.end.y - nNode.pos.y);
 
       p = this.inList(this.openList, nNode);
       if (p > -1 && this.openList[p].cost <= nNode.cost) continue;
@@ -42,7 +42,7 @@ export default class AStar {
     this.openList.sort((a, b) => { return a.cost - b.cost });
   }
 
-  find(aStarObj: any, ctx: CanvasRenderingContext2D): boolean {
+  find(aStarObj: any): boolean {
     this.closedList = [];
     this.openList = [];
     this.aStarObj = aStarObj;
